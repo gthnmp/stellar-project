@@ -11,11 +11,67 @@
   padding: 1rem;
   
   display: grid;
-  grid-template-columns: repeat(7, minmax(8rem, 1fr));
-  grid-template-rows: 4rem repeat(15, 14rem);
+  grid-template-columns: repeat(2, minmax(8rem, 1fr));
+  grid-template-rows: 4rem repeat(auto, 18rem);
   column-gap: 1rem;
   row-gap: 4rem;
-
+  
   user-select: none;
+}
 
+.navigation-layout { 
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(8rem, 1fr));
+  column-gap: 1rem;
+  user-select: none;
+}
+
+@media (min-width:768px) {
+  .catalogue-layout { 
+    width: 100vw;
+    padding: 1rem;
+    
+    display: grid;
+    grid-template-columns: repeat(7, minmax(8rem, 1fr));
+    grid-template-rows: 4rem repeat(auto, 18rem);
+    column-gap: 1rem;
+    row-gap: 4rem;
+    
+    user-select: none;
+  }
+
+  .navigation-layout { 
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(8rem, 1fr));
+    column-gap: 1rem;
+    user-select: none;
+  }
+}
+
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); 
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.transition-entering,
+.transition-exiting {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.transition-entered,
+.transition-exited {
+  transform: translateY(0);
+  opacity: 1;
+  transition: opacity 500ms, transform 500ms;
 }
