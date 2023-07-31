@@ -1,5 +1,5 @@
 import React from "react"
-import { CatalogueItem, SmoothScroll, CatalogueNavigation } from '@/components'
+import { CatalogueItem, SmoothScroll, CatalogueNavigation, CatalogueFooter } from '@/components'
 
 export default function Home() {
   const itemsArray = Array.from({ length: 60 });
@@ -11,7 +11,7 @@ export default function Home() {
           <CatalogueItem key={index} src=""/>
         ))}
       </main>
-      <footer className="w-screen h-96 bg-purple-500">Foobar</footer>
+      <CatalogueFooter/>
     </SmoothScroll>
   );
 }
