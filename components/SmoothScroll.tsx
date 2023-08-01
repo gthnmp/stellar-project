@@ -16,7 +16,7 @@ const useSmoothScroll = () => {
     let target = 0;
     let ease = 0.075;
     
-    const maxHeight = catalogue.getBoundingClientRect().height! * 0.9;
+    const maxHeight = catalogue.getBoundingClientRect().height! - (window.innerHeight / 2);
     console.log(maxHeight)
   
     function lerp(start: number, end: number, t: number) {
