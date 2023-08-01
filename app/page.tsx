@@ -1,7 +1,7 @@
 import React from "react"
 import { SmoothScroll, CatalogueFooter, CatalogueContent } from '@/components'
 
-export default async function Home() {
+export default function Home() {
   return (
     <SmoothScroll>
       <CatalogueContent/>
