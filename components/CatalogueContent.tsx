@@ -1,16 +1,21 @@
 import CatalogueNavigation from "./CatalogueNavigation"
 import CatalogueItem from "./CatalogueItem"
 import { getProduct } from "@/api/getProduct";
+import { Product } from "@/types";
+import { supabase } from "@/api/supabaseClient";
+
+type ProductResponse = Product[] | any[] | undefined
 
 const CatalogueContent = async () => {
-  const itemsArray = Array.from({ length: 60 });
-  const product = await getProduct();
-  console.log(product)
+  const products: ProductResponse = await getProduct();
   return(
     <main className="catalogue-layout">
       <CatalogueNavigation/>
-      {itemsArray.map((_, index) => (
-        <CatalogueItem key={index} src=""/>
+      {products?.map((product:Product, index) => (
+        <CatalogueItem 
+          key={index} 
+          {...product}
+        />
       ))}
     </main>
   )

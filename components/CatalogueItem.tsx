@@ -1,34 +1,43 @@
-import Image, {StaticImageData} from "next/image"
+import Image, { StaticImageData } from "next/image";
 
-interface CatalgueItemProps {
-  src : string | StaticImageData,
-  alt? : string,
-  href? : string
+interface CatalogueItemProps {
+  name: string;
+  thumbnail: string;
+  sold: number;
+  stock: number;
+  rating: number;
+  discount: boolean;
+  default_price: number;
+  new_price: number;
+  description: string;
+  category: string;
+  alt?: string;
+  href?: string;
 }
 
-const CatalogueItem: React.FC<CatalgueItemProps> = ({ src, alt = "", href}) => {
-  return(
-    <div className="w-full h-full shadow-lg flex gap-1 flex-col p-3">
-      {src && 
-        <Image
-          src={src}
-          alt={alt}
-          width={300} 
-          height={400}
-        />
-      }
-      <div className="w-full h-auto aspect-square bg-neutral-30f0 bg-gradient-to-br from-neutral-300 to-neutral-400"/>
-      <div className="text-sm w-full flex flex-col justify-between gap-1">
-        <h1>Lorem ipsum dolor sit amet.</h1>
+const CatalogueItem: React.FC<CatalogueItemProps> = ({
+  thumbnail,
+  name,
+  new_price,
+  sold,
+  alt = "",
+}) => {
+  return (
+    <div className="w-full h-full shadow-2xl flex gap-1 flex-col p-3">
+      {thumbnail && (
+        <Image src={thumbnail} alt={alt} width={300} height={400} />
+      )}
+      <div className="text-xs w-full flex flex-col justify-between gap-1">
+        <h1>{name}</h1>
         <div className="flex w-full font-semibold justify-between text-xl">
-          <p>$6</p>
+          <p>${new_price}</p>
         </div>
         <div className="text-xs text-neutral-600">
-          <p>Sold 2</p>
+          <p>Sold {sold}</p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CatalogueItem
+export default CatalogueItem;
