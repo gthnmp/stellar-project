@@ -11,6 +11,23 @@ const stock_selector = ".css-1yy88m3-unf-heading.e1qvo2ff8 > b";
 const thumbnail_selector = '.intrinsic.css-1xopdmj > img';
 const product_description_selector = 'div[data-testid="lblPDPDescriptionProduk"]';
 
+const waitForSelectors = async (page, selectors) => {
+  await Promise.all(
+    selectors.map((selector) => page.waitForSelector(selector))
+  );
+};
+
+const selectorsToWaitFor = [
+  title_selector,
+  current_price_selector,
+  actual_price_selector,
+  discount_value_selector,
+  stock_selector,
+  thumbnail_selector,
+  product_description_selector,
+];
+
+
 const cleanTitle = (title) => {
   return title.replace(/Dobujack/gi, '').replace(/-\s(?:S|L|XL|XXL)\b/gi, '').trim();
 };
@@ -49,7 +66,7 @@ const scrapeDataFromPage = async (page) => {
 
 const scrapeFromTokopedia = async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: 'new',
     defaultViewport: null,
   });
 
@@ -57,14 +74,24 @@ const scrapeFromTokopedia = async () => {
   await page.setDefaultNavigationTimeout(2 * 60 * 1000);
   await page.goto(base_url, { waitUntil: "domcontentloaded" });
   await page.waitForSelector(clickable_selector);
+  const clickableElements = await page.$$(clickable_selector);
 
-  await page.click(clickable_selector);
-  await page.waitForNavigation();
+  const products = []
+  for (const element of clickableElements) {
+    const link = await element.getProperty('href');
+    const url = await link.jsonValue();
+    const newPage = await browser.newPage();
+    await newPage.goto(url, { waitUntil: 'domcontentloaded' });
+    await waitForSelectors(newPage, selectorsToWaitFor)
 
-  const data = await scrapeDataFromPage(page);
-  if (data) {
-    console.log(data);
+    const data = await scrapeDataFromPage(newPage);
+    if (data) {
+      console.log('Succesfully scrapped:', data.name);
+      products.push(data)
+    }
+    await newPage.close();
   }
+
 
   await browser.close();
 };
